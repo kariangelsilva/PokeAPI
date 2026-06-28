@@ -1,0 +1,60 @@
+.operator-demo {
+  --dark: #ffffff;
+  --darker: #b4b9c9;
+  --card-bg: #0f3460;
+  --card-hover: #1a4a7a;
+  --red: #e3350d;
+  --text: #e0e0e0;
+  --text-muted: #9e9e9e;
+
+  background: var(--card-bg);
+  color: var(--text);
+  border-radius: 14px;
+  padding: 20px 32px;
+  margin: 24px 32px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+
+  h2 {
+    margin-top: 0;
+    color: white;
+  }
+
+  p {
+    color: var(--text-muted);
+  }
+
+  code {
+    background: var(--darker);
+    color: var(--text);
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 0.75rem 0;
+  }
+
+  &__label {
+    font-weight: 600;
+    margin-right: 0.25rem;
+  }
+
+  &__chip {
+    display: inline-block;
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+    background: var(--darker);
+    color: var(--text);
+  }
+
+  &__status {
+    color: #66ffb3;
+    font-weight: 600;
+    margin-top: 0.75rem;
+  }
+}
