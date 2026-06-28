@@ -1,0 +1,110 @@
+<div class="pokedex">
+  <header class="pokedex__header">
+    <div class="pokedex__logo">
+      <span class="pokedex__ball"></span>
+    PokeAPI
+    </div>
+
+    <div class="search-box">
+      <input
+        type="text"
+        class="search-box__input"
+        placeholder="Buscar por nombre o ID..."
+        [value]="searchTerm"
+        (input)="onSearch($any($event.target).value)"
+      />
+      <button class="search-box__clear" *ngIf="searchTerm" (click)="clearSearch()">✕</button>
+    </div>
+  </header>
+
+  <!-- Search result -->
+  <div class="search-result" *ngIf="searchTerm.trim()">
+    <div class="spinner" *ngIf="searchLoading">
+      <div class="spinner__circle"></div>
+      <p>Buscando...</p>
+    </div>
+    <div class="error-banner" *ngIf="searchError && !searchLoading">
+      <span> {{ searchError }}</span>
+    </div>
+    <div class="search-result__card" *ngIf="searchResult && !searchLoading">
+      <div class="poke-card poke-card--featured">
+        <div class="poke-card__image-wrap">
+          <img [src]="getSprite(searchResult)" [alt]="searchResult.name" class="poke-card__image" />
+        </div>
+        <div class="poke-card__info">
+          <span class="poke-card__id">#{{ searchResult.id.toString().padStart(3, '0') }}</span>
+          <h2 class="poke-card__name">{{ formatName(searchResult.name) }}</h2>
+          <div class="poke-card__types">
+            <span
+              class="poke-card__type"
+              *ngFor="let t of searchResult.types"
+              [style.background]="getTypeColor(t.type.name)"
+            >{{ t.type.name }}</span>
+          </div>
+          <div class="poke-card__stats">
+            <div class="stat-row" *ngFor="let s of searchResult.stats">
+              <span class="stat-row__label">{{ formatStat(s.stat.name) }}</span>
+              <div class="stat-row__bar-wrap">
+                <div class="stat-row__bar" [style.width.%]="(s.base_stat / 200) * 100"></div>
+              </div>
+              <span class="stat-row__val">{{ s.base_stat }}</span>
+            </div>
+          </div>
+          <div class="poke-card__meta">
+            <span><strong>Altura:</strong> {{ searchResult.height / 10 }}m</span>
+            <span><strong>Peso:</strong> {{ searchResult.weight / 10 }}kg</span>
+            <span><strong>Exp base:</strong> {{ searchResult.base_experience }}</span>
+            <span><strong>Habilidades:</strong> {{ searchResult.abilities.length }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading state -->
+  <div class="spinner" *ngIf="loading">
+    <div class="spinner__circle"></div>
+    <p>Cargando Pokémon...</p>
+  </div>
+
+  <!-- Error state -->
+  <div class="error-banner" *ngIf="error && !loading">
+    <span>⚠️ {{ error }}</span>
+    <button (click)="loadPokemons()">Reintentar</button>
+  </div>
+
+  <!-- Grid -->
+  <div class="pokedex__grid" *ngIf="!loading && !error && !searchTerm.trim()">
+    <div class="poke-card" *ngFor="let pokemon of pokemons">
+      <div class="poke-card__image-wrap">
+        <img [src]="getSprite(pokemon)" [alt]="pokemon.name" class="poke-card__image" loading="lazy" />
+      </div>
+      <span class="poke-card__id">#{{ pokemon.id.toString().padStart(3, '0') }}</span>
+      <h3 class="poke-card__name">{{ formatName(pokemon.name) }}</h3>
+      <div class="poke-card__types">
+        <span
+          class="poke-card__type"
+          *ngFor="let t of pokemon.types"
+          [style.background]="getTypeColor(t.type.name)"
+        >{{ t.type.name }}</span>
+      </div>
+      <div class="poke-card__meta">
+        <span>Altura: {{ pokemon.height / 10 }}m</span>
+        <span>Peso: {{ pokemon.weight / 10 }}kg</span>
+        <span>Exp: {{ pokemon.base_experience }}</span>
+        <span>Tipos: {{ pokemon.types.length }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination" *ngIf="!loading && !error && !searchTerm.trim()">
+    <button class="pagination__btn" (click)="prevPage()" [disabled]="currentOffset === 0">
+      ← Anterior
+    </button>
+    <span class="pagination__info">Página {{ currentOffset / pageSize + 1 }}</span>
+    <button class="pagination__btn" (click)="nextPage()">
+      Siguiente →
+    </button>
+  </div>
+</div>
