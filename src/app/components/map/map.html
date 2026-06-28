@@ -1,0 +1,19 @@
+<section class="operator-demo">
+  <h2>Operador <code>map</code></h2>
+  <p>
+    <code>map</code> transforma cada valor emitido por el observable aplicando
+    una función. Aquí multiplicamos cada número original por 10.
+  </p>
+
+  <div class="operator-demo__row">
+    <span class="operator-demo__label">Original:</span>
+    <span class="operator-demo__chip" *ngFor="let value of originalValues">{{ value }}</span>
+  </div>
+
+  <div class="operator-demo__row">
+    <span class="operator-demo__label">map(x =&gt; x * 10):</span>
+    <span class="operator-demo__chip operator-demo__chip--result" *ngFor="let value of transformedValues">
+      {{ value }}
+    </span>
+  </div>
+</section>
