@@ -1,0 +1,14 @@
+<section class="operator-demo">
+  <h2>Operador <code>of</code></h2>
+  <p>
+    <code>of</code> crea un observable que emite los valores indicados, uno por
+    uno y en orden, y luego se completa automáticamente.
+  </p>
+
+  <div class="operator-demo__row">
+    <span class="operator-demo__label">Emitidos:</span>
+    <span class="operator-demo__chip" *ngFor="let value of emittedValues">{{ value }}</span>
+  </div>
+
+  <p class="operator-demo__status" *ngIf="completed">✔ Observable completado</p>
+</section>
